@@ -24,6 +24,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool a = false;
   bool b = false;
+
+  //Getters para obtener el valor del carry y suma
+  bool get carry => a & b;
+  bool get sum => a ^ b;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,39 +55,36 @@ class _HomeScreenState extends State<HomeScreen> {
             Text('RESULTADO'),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('SUMA'),
-                AnimatedContainer(
-                  duration: Duration(milliseconds: 250),
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: a ^ b ? Colors.green : Colors.red,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-              ],
+              children: [Text('SUMA'), ResultBox(res: sum)],
             ),
             const SizedBox(height: 20),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('CARRY'),
-                AnimatedContainer(
-                  duration: Duration(milliseconds: 250),
-                  width: 40,
-                  height: 40,
-                  decoration: BoxDecoration(
-                    color: a & b ? Colors.green : Colors.red,
-                    borderRadius: BorderRadius.circular(100),
-                  ),
-                ),
-              ],
+              children: [Text('CARRY'), ResultBox(res: carry)],
             ),
             Spacer(),
             Text('By: Sebastian Garzon')
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ResultBox extends StatelessWidget {
+  const ResultBox({Key key, @required this.res}) : super(key: key);
+
+  final bool res;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedContainer(
+      duration: Duration(milliseconds: 250),
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: res ? Colors.green : Colors.red,
+        borderRadius: BorderRadius.circular(100),
       ),
     );
   }
